@@ -6,12 +6,6 @@ import Header from 'components/header';
 // import { fetchUser } from 'Store/actions/users';
 // import {useEffect} from 'react'
 function App() {
-  // const getUser = () => {
-  //     dispatch(fetchUser())
-  // }
-  // useEffect(() => {
-  //   getUser();
-  // }, [])
   return (
     <div className="App">
       <Rows>

@@ -1,4 +1,5 @@
 import useInput from 'hooks/useInput';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateUser } from 'Store/actions/users';
 // import { useSelector } from 'react-redux';
@@ -6,6 +7,7 @@ import { Input, Line } from 'UIKit';
 import './settingsView.css'
 const View = (props) => {
     // const user = useSelector(state => state.users.user);
+    const [submitMessage, setSubmitMessage] = useState("");
     const newName = useInput()
     const newBalance = useInput()
     const newDayofTracking = useInput()
@@ -14,16 +16,25 @@ const View = (props) => {
             newDayofTracking.value < 29 &&
             newDayofTracking.value > 0 &&
             !isNaN(newBalance.value) &&
-            newName.value.length>5 &&
-            newName.value.length<40;
+            newName.value.length > 5 &&
+            newName.value.length < 40;
     }
     const dispatch = useDispatch()
+    const clearInput = () => {
+        newName.onChange({ target: { value: '' } })
+        newBalance.onChange({ target: { value: '' } })
+        newBalance.onChange({ target: { value: '' } })
+        newDayofTracking.onChange({ target: { value: '' } })
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(validate())
-        dispatch(updateUser({ name: newName.value, balance: newBalance.value, dayOfTracking: newDayofTracking.value }));
+        if (validate()) {
+            dispatch(updateUser({ name: newName.value, balance: newBalance.value, dayOfTracking: newDayofTracking.value }));
+            alert('detailes saved')
+            clearInput()
+        }
         else
-        alert('rensure your input is valid')
+            setSubmitMessage('re-ensure your input is valid')
     }
 
     return (
@@ -43,6 +54,9 @@ const View = (props) => {
                     <Input type="number" placeholder="change day of tracking" {...newDayofTracking} min={1} max={28} />
                 </Line>
                 <Input type="submit" value="submit" />
+                <Line>
+                    <div>{submitMessage}</div>
+                </Line>
             </form>
         </div>
     )

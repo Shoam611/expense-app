@@ -2,7 +2,7 @@ import { useState,useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { fetchUser } from 'Store/actions/users';
-import { fetchExpenses } from 'Store/actions/expenses'
+import { fetchExpenses,fetchCurrentExpenses } from 'Store/actions/expenses'
 import { Box, Btn, Icon, Line } from 'UIKit'
 import Expense from 'components/expense'
 import './homeView.css'
@@ -11,7 +11,7 @@ const View = (props) => {
     const [showExpenses, setShowExpenses] = useState(false);
     const user = useSelector(state => state.users.user);
     const expensesList = useSelector(state => state.expenses);
-    const { expenses, minDate, maxDate } = expensesList;
+    const { expenses, minDate, maxDate ,currentExpenses} = expensesList;
     const getUser = () => {
         dispatch(fetchUser())
     }
@@ -20,11 +20,12 @@ const View = (props) => {
     }, [])
     const getExpenses = () => {
         dispatch(fetchExpenses(new Date()));
+        dispatch(fetchCurrentExpenses());
     }
     const calcExpensesSoFar = () => {
         let sum = 0;
-        if (!expenses || !user) return;
-        expenses.forEach(element => {;return sum += element.expenseValue?element.expenseValue:0; });
+        if (!currentExpenses || !user) return;
+        currentExpenses.forEach(element => {;return sum += element.expenseValue?element.expenseValue:0; });
         return sum;
     }
     const clacPrediction = () => {

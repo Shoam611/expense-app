@@ -9,8 +9,8 @@ const Navigator = () => {
                 <Routes>
                     <Route path="/" element ={<App />} >
                         <Route path="home" element={<HomeView />} />
-                        <Route path="addExpanse" element={AddExpenseView()} />
-                        <Route path="settings" element={SettingsView()} />
+                        <Route path="addExpanse" element={<AddExpenseView />} />
+                        <Route path="settings" element={<SettingsView />} />
                     </Route>
                 </Routes>
         </BrowserRouter>

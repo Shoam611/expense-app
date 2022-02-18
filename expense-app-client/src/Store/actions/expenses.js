@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const ADDEXPENSE = "ADDEXPENSE";
 export const FETCHEXPENSES = "FETCHEXPENSES";
+export const FETCHCURRENTEXPENSES = "FETCHCURRENTEXPENSES";
 export const UPDATEDATE = "UPDATEDATE";
 export const addExpense = (newExpense) => {
     return async (dispatch, getState) => {
@@ -26,6 +27,19 @@ export const updateDate = (minDate,maxDate)=>{
     return dispatch =>{
         dispatch({type:UPDATEDATE,minDate,maxDate})
     }
+}
+
+export const fetchCurrentExpenses = ()=>{
+    return async (dispatch, getState) => {
+        const user = getState().users.user;
+        if (!user) { return; }
+        const today = new Date();
+        const minDate = new Date(today.getFullYear(), today.getMonth(), getState().users.user.dayOfTracking);
+        const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
+        const responseData = await response.data;
+
+        dispatch({ type: FETCHCURRENTEXPENSES, data: { currentExpenses: responseData } });
+}
 }
 export const fetchExpenses = (date) => {
     return async (dispatch, getState) => {
