@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+ul{
+  list-style: none;
+}
+a:active,a:visited,a{
+  text-decoration: none;
+  color:inherit;
+}
+a.active{
+  color: var(--accent);
+  font-weight: var(--font-weight-h);
+}

@@ -1,16 +1,17 @@
-const {ExpenseModel} = require('./schmas');
-const { connect, disconnect } = require('mongoose');
+const { ExpenseModel } = require('./schemas');
+const { connect } = require('mongoose');
 class ExpensesRepository {
-    constructor(proxy) {
+    constructor() {
         this.databaseName = process.env.db_name;
         this.connectionString = process.env.db_connection_string;
         this.init()
     }
-    async init() {connect(`${this.connectionString}/${this.databaseName}`)}
+    async init() { connect(`${this.connectionString}/${this.databaseName}`) }
     //Create
-    async addAsync(newDoc) {
-        console.log('in add expanse',newDoc);
-        const q = new ExpenseModel({ ...newDoc });
+    async addAsync(id,newDoc) {
+
+        console.log("in adding expense",id,newDoc);
+        const q = new ExpenseModel({ ...newDoc,ownerId:id });
         await q.save();
         return q._id;
     }
@@ -19,24 +20,15 @@ class ExpensesRepository {
         ExpenseModel.deleteByIdAsync(id);
     }
     //Read
-    async getOneAsync(id) {
-        const query = ExpenseModel.findOne({ _id: id });
-        const doc = await query.next();
-        return doc;
-    }
-    async getManyAsync(date,userId) {
-        const dayOfTraking = 1;
-        const dMin = new Date(date.getFullYear() ,date.getMonth(),dayOfTraking+1)
-        const dMax = new Date(dMin.getFullYear(),dMin.getMonth()+1 , dMin.getDate()-1);
-        console.log(dMin);
-        console.log(dMax);
-        const query =  ExpenseModel.find({ownerId:{userId}, createdAt:{ $lte:dMin.toISOString(), $gte:dMax.toISOString()}}).sort('-createdAt').cursor();
-         const list = [];
-         for (let doc = await query.next();doc != null;doc = await query.next()) {
-             list.push(doc);
-        }
-         console.log("list", list);
-        return list;
+    async getManyAsync(date, userId) {
+        const dMin = date
+        const dMax = new Date(dMin.getFullYear(), dMin.getMonth() + 1, dMin.getDate() - 1);
+        const query = await ExpenseModel.find({ ownerId: userId })
+                                        .where({ createdAt: { $gte: dMin.toDateString(), $lte: dMax.toDateString() } })
+                                        .sort('-createdAt');
+        console.log("number of queries fetched : ", query.length,typeof(query));
+        console.log("queries ", query);
+        return query ? query : [];
     }
     //Update
     async UpdateOne(id, newDoc) {

@@ -5,11 +5,12 @@ class ExpenseController
         this.expenseRepository=expenseRepository;
     }
     getExpenseForUser = async ({query}) => {
-        const today = new Date();
-       return await this.expenseRepository.getManyAsync(today,query.userId)
+        const dateFromQuery =new Date(query.date)
+        console.log("date from query",dateFromQuery);
+       return await this.expenseRepository.getManyAsync(dateFromQuery,query.userId)
     };
     addExpenseForUser = async ({body}) => {
-        return await this.expenseRepository.addAsync(body.newExpense);
+        return await this.expenseRepository.addAsync(body.id,body.newExpense);
     };
     updateExpenseForUser = async ({body}) => {
         

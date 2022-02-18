@@ -1,12 +1,12 @@
 const {Schema,model} = require('mongoose');
 const userSchema=new Schema({
     name:String,
-    dayOfTraking:Number,
+    dayOfTracking:Number,
     currentBalance:Number
 }, {timestamps:true} );
 const expenseSchema = new Schema({
 storeName:String,
-expanseValue:Number,
+expenseValue:Number,
 ownerId:String
 },{timestamps:true} );
 const ExpenseModel= model('ExpenseModel',expenseSchema);
