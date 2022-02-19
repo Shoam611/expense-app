@@ -2,11 +2,9 @@ import useInput from 'hooks/useInput';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateUser } from 'Store/actions/users';
-// import { useSelector } from 'react-redux';
-import { Input, Line } from 'UIKit';
+import { Btn, Columns, Input, Line, Rows } from 'UIKit';
 import './settingsView.css'
-const View = (props) => {
-    // const user = useSelector(state => state.users.user);
+const View = () => {
     const [submitMessage, setSubmitMessage] = useState("");
     const newName = useInput()
     const newBalance = useInput()
@@ -26,8 +24,7 @@ const View = (props) => {
         newBalance.onChange({ target: { value: '' } })
         newDayofTracking.onChange({ target: { value: '' } })
     }
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         if (validate()) {
             dispatch(updateUser({ name: newName.value, balance: newBalance.value, dayOfTracking: newDayofTracking.value }));
             alert('detailes saved')
@@ -38,27 +35,36 @@ const View = (props) => {
     }
 
     return (
-        <div >
+        <div className='form' >
             <h2>Change Settings</h2>
-            <form onSubmit={handleSubmit}>
-                <Line>
-                    <h4>edit your username:</h4>
-                    <Input placeholder="edit your username" {...newName} />
-                </Line>
-                <Line>
-                    <h4>new balance:</h4>
-                    <Input placeholder="edit balance on your bank account" {...newBalance} type="number" />
-                </Line>
-                <Line>
-                    <h4>new dat of tracking:</h4>
-                    <Input type="number" placeholder="change day of tracking" {...newDayofTracking} min={1} max={28} />
-                </Line>
-                <Input type="submit" value="submit" />
-                <Line>
+            <Columns >
+                <div>
+                    <Rows>
+                        <h4>edit your username:</h4>
+                        <Rows >
+                            <h4>new balance:</h4>
+                            <Rows>
+                                <h4>new dat of tracking:</h4>
+                            </Rows>
+                        </Rows>
+                    </Rows>
+                </div>
+                <div>
+                    <Rows>
+                        <Input placeholder="edit your username" {...newName} />
+                        <Rows >
+                            <Input placeholder="edit balance on your bank account" {...newBalance} type="number" />
+                            <Rows>
+                                <Input type="number" placeholder="change day of tracking" {...newDayofTracking} min={1} max={28} />
+                            </Rows>
+                        </Rows>
+                    </Rows>
+                </div>  
+            </Columns>
+                <Btn onClick={handleSubmit}>submit</Btn>
                     <div>{submitMessage}</div>
-                </Line>
-            </form>
-        </div>
+            
+        </div >
     )
 }
 export default View

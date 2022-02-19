@@ -1,0 +1,25 @@
+.expense-table{
+    max-width:60vw;
+    width: 40rem;
+    background-color: var(--background-primary);
+}
+.expense-container{
+    margin-top: var(--gap-m);
+    max-height: 250px;
+    padding-right:  2em;
+    padding-left: 1em;
+    overflow-y:auto ;
+    overflow-x:hidden ;
+}
+.expense-table ::-webkit-scrollbar {
+    background-color: transparent;
+    width: 1em;
+}
+ .expense-table ::-webkit-scrollbar-track{
+    border-radius: 1em;
+    background-color: var( --background-light);
+}
+.expense-table ::-webkit-scrollbar-thumb{
+    background-color: var(--accent);
+    border-radius: 1em;
+}

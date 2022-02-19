@@ -7,7 +7,7 @@ const initialState = {
         return state;
     }
     switch(action.type){
-        case FETCHUSER :  return {...state,user:action.defaultUser, }
+        case FETCHUSER :  return {...state,user:action.defaultUser ? action.defaultUser : state.user, }
         default : return state;
     }
 }

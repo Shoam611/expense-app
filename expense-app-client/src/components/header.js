@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom"
-import { Box, Btn, Line, } from "UIKit"
+import { Box, Line, } from "UIKit"
 import './header.css'
 const Header = (props) => {
   const user = useSelector(state => state.users.user);
@@ -10,7 +10,6 @@ const Header = (props) => {
         <Link to="home" className="header-title">
           Expense-App
         </Link>
-        {/* <Btn onClick={()=>{console.log(user);}}/> */}
       </Line>
       <Line>
         <div className="header-item">

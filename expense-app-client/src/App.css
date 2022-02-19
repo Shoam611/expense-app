@@ -1,14 +1,35 @@
+.App,
+html,
+body,
+#root {
+  height: 100%;
+  overflow: unset;
+}
 .App {
   text-align: center;
 }
-ul{
+ul {
   list-style: none;
 }
-a:active,a:visited,a{
+a:active,
+a:visited,
+a {
   text-decoration: none;
-  color:inherit;
+  color: inherit;
 }
-a.active{
+a.active {
   color: var(--accent);
   font-weight: var(--font-weight-h);
+}
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0;
+}
+::-webkit-scrollbar-track {
+  border-radius: 1em;
+  background-color: var(--background-light);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 1em;
 }

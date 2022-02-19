@@ -1,18 +1,20 @@
-import { FETCHEXPENSES ,FETCHCURRENTEXPENSES} from "Store/actions/expenses";
-
-const today=new Date()
+import { FETCHEXPENSES, FETCHCURRENTEXPENSES } from "Store/actions/expenses";
+const today = new Date();
 
 const initialState = {
-    currentExpenses:null,
-    expenses:null,
-    minDate:  new Date(today.getFullYear(), today.getMonth(), 2),
-    maxDate:  new Date(today.getFullYear(), today.getMonth() + 1,1),
+    currentExpenses: null,
+    expenses: null,
+    minDate: new Date(today.getFullYear(), today.getMonth(), 2),
+    maxDate: new Date(today.getFullYear(), today.getMonth() + 1, 1),
 }
- const reducer = (state=initialState,action) =>{
-    switch(action.type){
-        case FETCHEXPENSES: return {...state,...action.data};
-        case FETCHCURRENTEXPENSES: return {...state,...action.data};
+const reducer = (state = initialState,action) => {
+    if(!action){
+        return state;
     }
-    return state;
+    switch (action.type) {
+        case FETCHEXPENSES: return { ...state, ...action.data };
+        case FETCHCURRENTEXPENSES: return { ...state, ...action.data };
+        default: return state;
+    }
 }
 export default reducer
