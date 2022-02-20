@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
     }
     switch (action.type) {
         case FETCHEXPENSES:
-            console.log("seting expenses to", action.currentExpenses);
+            console.log("seting expenses to", action.expenses);
             return { ...state, expenses:action.expenses,minDate:action.minDate,maxDate:action.maxDate };
         case FETCHCURRENTEXPENSES:
             console.log("seting expenses to", action.currentExpenses);

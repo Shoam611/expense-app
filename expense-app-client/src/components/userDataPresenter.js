@@ -4,7 +4,7 @@ import { Line } from "UIKit";
 
 const UserDataPresenter = (props) => {
 
-    // const user = useSelector(state => state.users.user) 
+    const user = useSelector(state => state.users.user) 
     const currentExpenses = useSelector(state => state.expenses.currentExpenses);
     
     const clacPrediction = () => props.user.currentBalance - calcExpensesSoFar();
@@ -13,9 +13,9 @@ const UserDataPresenter = (props) => {
         if (currentExpenses) currentExpenses.forEach(element => {sum += element.expenseValue });
         return sum;
     }
-    useState(()=>{
-        console.log("user: ",props.user,typeof(user));
-    },[props.user])
+    // useState(()=>{
+    //     console.log("user: ",props.user,typeof(user));
+    // },[props.user])
     return ( props.user ?
         <ul>
             <li>
