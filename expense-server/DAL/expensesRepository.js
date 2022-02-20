@@ -16,12 +16,10 @@ class ExpensesRepository {
         return q._id;
     }
     //Delete
-    async DeleteOneAsync(id) {
-        ExpenseModel.deleteByIdAsync(id);
-    }
+    async DeleteOneAsync(id) {ExpenseModel.deleteByIdAsync(id);}
     //Read
     async getManyAsync(date, userId) {
-        const dMin = date ? date : new Date();
+        const dMin = date ;
         const dMax = new Date(dMin.getFullYear(), dMin.getMonth() + 1, dMin.getDate() - 1);
         const query = await ExpenseModel.find({ ownerId: userId })
                                         .where({ createdAt: { $gte: dMin.toDateString(), $lte: dMax.toDateString() } })

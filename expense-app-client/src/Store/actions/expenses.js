@@ -8,46 +8,53 @@ export const addExpense = (newExpense) => {
         try {
             const user = getState().users.user;
             if (!user) {
-                return ;
+                return;
             } else {
-                const response = await axios.post(`http://localhost:8080/expenses`, {id:user._id, newExpense});
+                const response = await axios.post(`http://localhost:8080/expenses`, { id: user._id, newExpense });
                 const responseData = await response.data
                 newExpense._id = responseData.data;
                 dispatch({ type: ADDEXPENSE, newExpense });
             }
-        } catch (err) {
-            handleError(err);
-        }
+        } catch (err) { }
     }
 }
-export const fetchCurrentExpenses = ()=>{
+export const fetchCurrentExpenses = () => {
     return async (dispatch, getState) => {
         const user = getState().users.user;
-        if (!user) { return; }
+        if (!user) { dispatch({ type: 'x' }); return; }
+        const expensesFromStorage = JSON.parse(window.sessionStorage.getItem("currentExpenses"));
+        if (expensesFromStorage) {
+            console.log("e", expensesFromStorage);
+            dispatch({ type: FETCHCURRENTEXPENSES, currentExpenses: expensesFromStorage });
+            return;
+        }
         const today = new Date();
-        const minDate = new Date(today.getFullYear(), today.getMonth(),user.dayOfTracking ?user.dayOfTracking:1);
-        console.log("date sent to server",minDate);
+        const minDate = new Date(today.getFullYear(), user.dayOfTracking > today.getDay() ? today.getDay() : today.getMonth(), user.dayOfTracking);
+        console.log("date sent to server", minDate);
         const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
         const responseData = await response.data;
+        window.sessionStorage.setItem("currentExpenses", JSON.stringify(responseData))
         dispatch({ type: FETCHCURRENTEXPENSES, currentExpenses: responseData });
-}
+    }
 }
 export const fetchExpenses = (date) => {
     return async (dispatch, getState) => {
-        const user = {...getState().users.user};
-        if (!user) {dispatch({tpe:''}) }
-        if(!date ){
-            date= new Date()
-            if(user.dayOfTracking>date.getDay())
-            date.setMonth(date.getMonth()-1);
+        const user = getState().users.user;
+        if (!user) {
+            let sessionuser = JSON.parse(window.sessionStorage.getItem("user"));
+            if (!sessionuser) {
+                dispatch({ type: 'x' });
+                console.log("aborted");
+                return;
+            }
+        } else {
+            const minDate = new Date(date.getFullYear(), date.getMonth(), user.dayOfTracking);
+            const maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 1, user.dayOfTracking - 1);
+            const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
+            const responseData = await response.data;
+            console.log('respons data for expenses', responseData);
+            dispatch({ type: FETCHEXPENSES, expenses: responseData, minDate, maxDate });
         }
-        const minDate = new Date(date.getFullYear(), date.getMonth(), user.dayOfTracking);
-        const maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 1, user.dayOfTracking-1);
-        const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
-        const responseData = await response.data;
-        dispatch({ type: FETCHEXPENSES,data: { expenses: responseData, minDate, maxDate }});
 
     }
-}
-const handleError = (err) => {
 }

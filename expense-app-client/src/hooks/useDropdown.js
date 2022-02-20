@@ -6,7 +6,9 @@ const useDropdown = (sourceList) =>{
     const [value,setValue] = useState();
     const onChange = (newValueId)=>{
         setValueId(newValueId);
-        setValue(list.find(item=>item.id===newValueId).value);
+        const getValue = list.find(item=>item.id===newValueId);
+
+        setValue(getValue ? getValue.value : null );
     }
     return {selected,onChange,value,list}
  }

@@ -7,13 +7,17 @@ const initialState = {
     minDate: new Date(today.getFullYear(), today.getMonth(), 2),
     maxDate: new Date(today.getFullYear(), today.getMonth() + 1, 1),
 }
-const reducer = (state = initialState,action) => {
-    if(!action){
+const reducer = (state = initialState, action) => {
+    if (!action) {
         return state;
     }
     switch (action.type) {
-        case FETCHEXPENSES: return { ...state, ...action.data };
-        case FETCHCURRENTEXPENSES: return { ...state, currentExpenses:action.currentExpenses };
+        case FETCHEXPENSES:
+            console.log("seting expenses to", action.currentExpenses);
+            return { ...state, expenses:action.expenses,minDate:action.minDate,maxDate:action.maxDate };
+        case FETCHCURRENTEXPENSES:
+            console.log("seting expenses to", action.currentExpenses);
+            return { ...state, currentExpenses: action.currentExpenses };
         default: return state;
     }
 }

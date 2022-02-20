@@ -6,9 +6,9 @@ class ExpenseController
     }
     getExpenseForUser = async ({query}) => {
         const dateFromQuery =new Date(query.date)
-        console.log("date from query",dateFromQuery  ? dateFromQuery : new Date());
+        console.log("date from query",dateFromQuery);
         try{
-            return await this.expenseRepository.getManyAsync(dateFromQuery ? dateFromQuery : new Date(),query.userId)
+            return await this.expenseRepository.getManyAsync(dateFromQuery ,query.userId)
         }catch{
             return []
 

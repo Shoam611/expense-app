@@ -27,7 +27,7 @@ const View = () => {
     }
     const handleSubmit = () => {
         if (validate()) {
-            dispatch(updateUser({ name: newName.value, balance: newBalance.value, dayOfTracking: selectedDay.value }));
+            dispatch(updateUser({ name: newName.value, currentBalance: newBalance.value, dayOfTracking: selectedDay.value }));
             alert('detailes saved')
             clearInput()
         }

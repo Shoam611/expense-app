@@ -9,13 +9,13 @@ import { useEffect } from 'react';
 import { fetchExpenses, fetchCurrentExpenses } from 'Store/actions/expenses'
 function App() {
   const dispatch = useDispatch();
-  useEffect(()=>{
-    (async ()=>{
+  useEffect(() => {
+    (async () => {
       await dispatch(fetchUser());
-      // await dispatch(fetchCurrentExpenses());
-      // await dispatch(fetchExpenses());
+       await dispatch(fetchCurrentExpenses());
+       await dispatch(fetchExpenses(new Date()));
     })()
-  },[])
+  }, [])
   return (
     <div className="App">
       <Rows>
