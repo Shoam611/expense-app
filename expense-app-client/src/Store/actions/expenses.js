@@ -45,18 +45,16 @@ export const fetchCurrentExpenses = () => {
 }
 export const fetchExpenses = (date) => {
     return async (dispatch, getState) => {
-        let user = getState().users.user;
+        const user = getState().users.user ? getState().users.user : JSON.parse(window.sessionStorage.getItem("user"));
         if (!user) {
-            user = JSON.parse(window.sessionStorage.getItem("user"));
-            if (!user) {
-                dispatch({ type: 'x' });
+                dispatch({ type:'x'});
                 console.log("aborted");
                 return;
-            }
         }
+        console.log('passed cond');
         const minDate = new Date(date.getFullYear(), date.getMonth(), user.dayOfTracking);
         console.log("min date in fetch expenses", minDate);
-        const maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 1, user.dayOfTracking - 1);
+        const maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 1, minDate.getDay()-1);
         const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
         const responseData = await response.data;
         console.log('respons data for expenses', responseData);
