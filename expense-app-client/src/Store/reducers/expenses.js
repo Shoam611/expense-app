@@ -11,9 +11,10 @@ const reducer = (state = initialState,action) => {
     if(!action){
         return state;
     }
+    console.log('in expenses reducer',action.type);
     switch (action.type) {
         case FETCHEXPENSES: return { ...state, ...action.data };
-        case FETCHCURRENTEXPENSES: return { ...state, ...action.data };
+        case FETCHCURRENTEXPENSES: return { ...state, currentExpenses:action.currentExpenses };
         default: return state;
     }
 }

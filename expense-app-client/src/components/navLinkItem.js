@@ -1,4 +1,4 @@
-import { Box } from 'UIKit';
+import { Box, Line } from 'UIKit';
 import { NavLink } from 'react-router-dom';
 import './NavLinkListItem.css'
 const NavLinkItem = (props) => {
@@ -6,7 +6,9 @@ const NavLinkItem = (props) => {
         <li>
             <NavLink to={props.to} className={({ isActive }) => { const name = isActive ? "active" : " "; return name }}>
                 <Box>
+                    <Line >
                     {props.children}
+                    </Line>
                 </Box>
             </NavLink>
         </li>

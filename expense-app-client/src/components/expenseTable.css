@@ -11,6 +11,7 @@
     overflow-y:auto ;
     overflow-x:hidden ;
 }
+
 .expense-table ::-webkit-scrollbar {
     background-color: transparent;
     width: 1em;

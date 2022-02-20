@@ -3,11 +3,9 @@ const initialState = {
     user:null
 }
  const reducer=(action ,state=initialState) => {
-    if(!action){
-        return state;
-    }
+    if(!action || !action.type) return state;
     switch(action.type){
-        case FETCHUSER :  return {...state,user:action.defaultUser ? action.defaultUser : state.user, }
+        case FETCHUSER :console.log('setting user to :' ,action.user);  return {...state,user:action.user ? action.user:state.user }
         default : return state;
     }
 }

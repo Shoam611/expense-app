@@ -6,7 +6,6 @@ const [windowHeight,setWindowHeight] = useState(window.innerHeight);
 const onWindowResize = () => {
     setWindowWidth(window.innerWidth);
     setWindowHeight(window.innerHeight);
-    console.log(window.innerWidth);
 }
 useEffect(()=>{
     window.addEventListener('resize',onWindowResize);

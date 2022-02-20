@@ -1,25 +1,26 @@
-import './addExpenseView.css'
 import useInput from 'hooks/useInput';
 import { useDispatch } from 'react-redux';
 import { Btn, Input, Line } from 'UIKit';
-import './settingsView.css'
 import { addExpense } from 'Store/actions/expenses';
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import './addExpenseView.css'
+import './settingsView.css';
 const View = (props) => {
     const dispatch = useDispatch();
     const storeName = useInput();
     const expenseValue = useInput();
     const navigate = useNavigate();
-    const preventBrowserGoBack = () => {
-        console.log('in popstate event');
-        navigate('/addExpanse')
-    }
-    useEffect(() => {
-        // window.addEventListener("popstate", preventBrowserGoBack);
-        // return()=>{window.removeEventListener("popstate",preventBrowserGoBack)}
-    }, []);
-
+    // const preventNavigation = (e) => {
+    //     navigate('/addExpanse');
+    // }
+    // useEffect(() => {
+    //     window.onbeforeunload = function() {
+    //         return "Are you sure you wish to leave the page?";
+    //       }
+    //     window.addEventListener('popstate',preventNavigation);
+    //     return()=>{window.removeEventListener('popstate',preventNavigation)}
+    // }, []);
     const validate = () => {
         return isNaN(storeName.value) &&
             !isNaN(expenseValue.value) &&
@@ -40,47 +41,39 @@ const View = (props) => {
             if (!didTryToCancel) {
                 setCancelMessage("Do you want to discard all changes?")
                 setDidTryToCancel(true);
-            } else {
-                clearInput();
-            }
-        } else {
-            setCancelMessage("your fields are empty bro!.")
-        }
+            } else navigate('/home');
+        } else navigate('/home');
+
     }
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
             dispatch(addExpense({ storeName: storeName.value ? storeName.value : ' ', expenseValue: expenseValue.value }));
-            alert('Expense Was Added!')
+            setCancelMessage('Expense Was Added!')
             clearInput();
         }
         else
-            alert('rensure your input is valid')
+            setCancelMessage('rensure your input is valid')
     }
-    const updateexpenseValueState=() =>{
-        dispatch()
+    const updateExpenseValueState = () => {
     }
-    return (
-        <div >
-            <h2>Add Expense Form</h2>
-            <form onSubmit={handleSubmit}>
-                <Line>
-                    <h4>Expense value:</h4>
-                    <Input placeholder="the cost.." onChange={(e)=>{expenseValue.onChange(e);updateexpenseValueState()}} value={expenseValue.value} type="number" min={0} />
-                </Line>
-                <Line>
-                    <h4>Expense Stroe (optional )</h4>
-                    <Input placeholder="store name..." {...storeName} />
-                </Line>
-                <Line>
-                    <Input type="submit" value="Add Expense" />
-                    <Btn onClick={cancelHandler}>{didTryToCancel? "Confirm" : "Cancel"}</Btn>
-                </Line>
-                <Line>
-                    <div >{cancelMessege}</div>
 
+    return (
+        <div  >
+            <h2>Add Expense Form</h2>
+            <div className='form'>
+                <h4>Expense value:</h4>
+                <Input placeholder="the cost.." onChange={(e) => { expenseValue.onChange(e); updateExpenseValueState() }} value={expenseValue.value} type="number" min={0} />
+                <h4>Expense Stroe (optional )</h4>
+                <Input placeholder="store name..." {...storeName} />
+                <Line justify="around">
+                    <Btn onClick={handleSubmit}>Add Expense</Btn >
                 </Line>
-            </form>
+                <Line >
+                    <Btn onClick={cancelHandler}>{didTryToCancel ? "Confirm" : "Cancel"}</Btn>
+                </Line>
+                <div className='mag'>{cancelMessege}</div>
+            </div>
         </div>
     )
 }

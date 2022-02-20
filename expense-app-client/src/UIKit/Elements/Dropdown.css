@@ -1,6 +1,6 @@
 .Dropdown {
   position: relative;
-  min-width: 200px;
+  width: 250px;
 }
 .Dropdown .trigger {
   padding: var(--gap-s);
@@ -15,6 +15,8 @@
   display: block;
 }
 .Dropdown .list {
+  display: flex;
+  flex-direction: column;
   z-index: 20;
   border: 1px solid var(--accent);
   border-top: none;
@@ -23,21 +25,22 @@
   top: 100%;
   left: 0;
   overflow: auto;
-  max-height: 120px;
+  max-height: 100px;
+  background-color: var(--background-primary);
 }
-.Dropdown .list li {
+.Dropdown .list *{
   background-color: var(--background-primary);
   padding: var(--gap-s);
+  margin: 0;
   border-top: 1px solid var(--border-color);
 }
 
-.Dropdown .list li:hover
-/* ,.Dropdown .trigger[display="open"]:hover  */ {
+.Dropdown .list *:hover{
   background-color: var(--light-color);
   cursor: pointer;
 }
 
-.Dropdown .list li:active {
+.Dropdown .list *:active {
   opacity: 0.8;
 }
 .trigger[display="close"] .Icon {

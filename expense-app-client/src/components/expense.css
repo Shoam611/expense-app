@@ -1,3 +1,7 @@
 .expense{
     width: 100%;
 }
+.expense h4{
+    max-width: max-content;
+    margin: var(--gap-s);
+}

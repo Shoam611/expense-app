@@ -8,12 +8,10 @@
   font-size: var(--font-size-m);
   margin: 0;
 }
-* li,li,.heading {
+/* * li,li,.heading {
   color: var(--text-color-dark);
-}
-li {
-  padding-left: var(--gap-s);
-}
+} */
+
 .toggle-icon-down {
   transform: rotate(90deg);
   transition: 0.3s;
