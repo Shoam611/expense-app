@@ -12,8 +12,8 @@ function App() {
   useEffect(()=>{
     (async ()=>{
       await dispatch(fetchUser());
-      await dispatch(fetchCurrentExpenses());
-      await dispatch(fetchExpenses());
+      // await dispatch(fetchCurrentExpenses());
+      // await dispatch(fetchExpenses());
     })()
   },[])
   return (

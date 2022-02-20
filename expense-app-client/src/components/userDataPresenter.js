@@ -1,16 +1,23 @@
+import useSessionStorage from "hooks/useSessionStorage";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Line } from "UIKit";
 
 const UserDataPresenter = () => {
-    const user = useSelector(state => state.users.user)
+
+    const reduxUser = useSelector(state => state.users.user) 
     const currentExpenses = useSelector(state => state.expenses.currentExpenses);
+    const user = useSessionStorage("user").value;
+    // let user = sessionUser
     const clacPrediction = () => user.currentBalance - calcExpensesSoFar();
     const calcExpensesSoFar = () => {
         let sum = 0;
-        console.log("currentExpenses",currentExpenses);
         if (currentExpenses) currentExpenses.forEach(element => {sum += element.expenseValue });
         return sum;
     }
+    useState(()=>{
+        console.log("user: ",user,typeof(user));
+    },[user])
     return ( user ?
         <ul>
             <li>
