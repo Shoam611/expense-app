@@ -18,7 +18,7 @@ const reducer = (state = initialState, action) => {
         case FETCHCURRENTEXPENSES:
             console.log("seting current expenses to", action.currentExpenses);
             return { ...state, currentExpenses: action.currentExpenses };
-            case ADDEXPENSE : return {...state,expenses:[...state.expenses,action.newExpense]}
+            case ADDEXPENSE : return {...state}
         default: return state;
     }
 }
