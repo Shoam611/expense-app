@@ -7,9 +7,8 @@ export const addExpense = (newExpense) => {
     return async (dispatch, getState) => {
         try {
             const user = getState().users.user;
-            if (!user) {
-                return;
-            } else {
+            if (!user) {dispatch({type:'x'}); return; } 
+            else {
                 const response = await axios.post(`http://localhost:8080/expenses`, { id: user._id, newExpense });
                 const responseData = await response.data
                 newExpense._id = responseData.data;

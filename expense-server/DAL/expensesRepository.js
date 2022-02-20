@@ -25,7 +25,7 @@ class ExpensesRepository {
                                         .where({ createdAt: { $gte: dMin.toDateString(), $lte: dMax.toDateString() } })
                                         .sort('-createdAt');
         console.log("number of queries fetched : ", query.length,typeof(query));
-        console.log("queries ", query);
+        // console.log("queries ", query);
         return query ? query : [];
     }
     //Update

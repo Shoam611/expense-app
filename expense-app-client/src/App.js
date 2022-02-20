@@ -10,17 +10,14 @@ import { useCallback, useEffect, useState } from 'react';
 import useSessionStorage from 'hooks/useSessionStorage';
 import { fetchUser } from 'Store/actions/users';
 import { fetchCurrentExpenses, fetchExpenses } from 'Store/actions/expenses';
-// import { fetchExpenses, fetchCurrentExpenses } from 'Store/actions/expenses'
 function App() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState();
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState();
   // const [user, setUser] = useSessionStorage("user");
   // const [currentExpesnses, setCurrentExpesnses] = useSessionStorage("currentExpesnses");
   const LoadUser = useCallback(async () => {
     setError(null);
-    setIsRefreshing(true);
     try{
       await dispatch(fetchUser());
     }
@@ -28,7 +25,6 @@ function App() {
   }, []);
   const loadCurrentExpenses = useCallback(async () => {
     setError(null);
-    setIsRefreshing(true);
     try{
       await dispatch(fetchExpenses(new Date()));
       await dispatch(fetchCurrentExpenses());
@@ -40,16 +36,13 @@ function App() {
     LoadUser().then(()=>{
       loadCurrentExpenses().then(()=>{
         setIsLoading(false);
-      })
-
+      });
     });
   }, [useDispatch,setIsLoading,setError])
   return (
-    isLoading ? (
-      <div>
-<h1>Loading data...</h1>
-      </div>
-    ) : <div className="App">
+    isLoading ? (<div><h1>Loading data...</h1></div>) :
+    !isLoading && error ?<p>{error}</p> :
+    <div className="App">
       <Rows>
         <Header>
         </Header>

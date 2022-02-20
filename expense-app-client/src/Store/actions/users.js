@@ -12,8 +12,7 @@ export const fetchUser = () => {
             }
             else {
                 const defaultUser = await (await axios.get('http://localhost:8080/defaultUser')).data;
-                window.sessionStorage.setItem("user",JSON.stringify(defaultUser));
-
+                window.sessionStorage.setItem("user", JSON.stringify(defaultUser));
                 dispatch({ type: FETCHUSER, user: defaultUser });
             }
         }
@@ -26,13 +25,20 @@ const getUser = () => {
 
 export const updateUser = (newData) => {
     return async (dispatch, getState) => {
-        const user = getState().users.user;
-        if (!user) {}
-        else {
-            const response = await (await axios.put('http://localhost:8080/defaultUser', { id: user._id, ...newData }));
-            console.log("update response", response.status);
-            
-            dispatch({ type: UPDATEUSER, newData })
+        let user = getState().users.user;
+        console.log('in update user', user);
+        if (!user) {
+            user = JSON.parse(window.sessionStorage.getItem("user"));
+            console.log('in update user', user);
+            if (!user) {
+                await dispatch(fetchUser());
+                user = getState().users.user;
+                console.log('in update user', user);
+            }
         }
+        const newUser = { ...user, ...newData };
+        const response = (await axios.put('http://localhost:8080/defaultUser', { id: user._id, newUser }));
+        console.log("update response", response.status,newUser);
+        dispatch({ type: UPDATEUSER, newUser })
     }
 }

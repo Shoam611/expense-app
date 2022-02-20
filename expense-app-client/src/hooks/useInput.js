@@ -8,7 +8,8 @@ const useInput = () => {
     }
     return{
         value:value,
-        onChange:valueChangedHandler
+        onChange:valueChangedHandler,
+        setValue
         }
 }
 

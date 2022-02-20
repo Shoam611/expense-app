@@ -15,19 +15,19 @@ const View = () => {
     const validate = () => {
         return !isNaN(selectedDay.value) &&
                !isNaN(newBalance.value) &&
-            newName.value.length > 5 &&
+            newName.value.length > 2 &&
             newName.value.length < 40;
     }
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const clearInput = () => {
-        newName.onChange({ target: { value: '' } })
-        newBalance.onChange({ target: { value: '' } })
-        newBalance.onChange({ target: { value: '' } })
+        newName.setValue( '')
+        newBalance.setValue( '')
+        newBalance.setValue( '')
         selectedDay.onChange(0);
     }
     const handleSubmit = () => {
         if (validate()) {
-            // dispatch(updateUser({ name: newName.value, currentBalance: newBalance.value, dayOfTracking: selectedDay.value }));
+            dispatch(updateUser({ name: newName.value, currentBalance: newBalance.value, dayOfTracking: selectedDay.value }));
             alert('detailes saved')
             clearInput()
         }
