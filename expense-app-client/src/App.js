@@ -16,8 +16,8 @@ function App() {
   const [isLoading, setIsLoading] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState();
-  const [user, setUser] = useSessionStorage("user");
-  const [currentExpesnses, setCurrentExpesnses] = useSessionStorage("currentExpesnses");
+  // const [user, setUser] = useSessionStorage("user");
+  // const [currentExpesnses, setCurrentExpesnses] = useSessionStorage("currentExpesnses");
   const LoadUser = useCallback(async () => {
     setError(null);
     setIsRefreshing(true);

@@ -35,7 +35,8 @@ export const fetchCurrentExpenses = () => {
             const maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 1, user.dayOfTracking - 1);
             const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
             const responseData = await response.data;
-            console.log('respons data for expenses', responseData);
+            console.log('respons data for current expenses', responseData);
+            window.sessionStorage.setItem("currentExpesnses",JSON.stringify(responseData))
             dispatch({ type: FETCHCURRENTEXPENSES, currentExpenses: responseData, minDate, maxDate });
         }
     }
