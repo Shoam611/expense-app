@@ -10,19 +10,19 @@ const View = () => {
     const [submitMessage, setSubmitMessage] = useState("");
     const list = Enumerable.range(1, 28).select(item => ({ id: item, value: item })).toArray();
     const selectedDay = useDropdown(list);
+    const dispatch = useDispatch()
     const newName = useInput()
     const newBalance = useInput()
     const validate = () => {
         return !isNaN(selectedDay.value) &&
-               !isNaN(newBalance.value) &&
+            !isNaN(newBalance.value) &&
             newName.value.length > 2 &&
             newName.value.length < 40;
     }
-    const dispatch = useDispatch()
     const clearInput = () => {
-        newName.setValue( '')
-        newBalance.setValue( '')
-        newBalance.setValue( '')
+        newName.setValue('');
+        newBalance.setValue('')
+        newBalance.setValue('');
         selectedDay.onChange(0);
     }
     const handleSubmit = () => {

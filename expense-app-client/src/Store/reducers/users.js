@@ -8,11 +8,11 @@ const reducer = (action, state = initialState) => {
         case FETCHUSER:
             console.log('setting user to :', action.user);
             return { ...state, user:action.user ? action.user: state.user }
-        case UPDATEUSER:
-            console.log('updating new user',action.newUser);
-            window.sessionStorage.setItem("user", action.newUser)
-            return { ...state, user: action.newUser }
-        default: return state;
+            case UPDATEUSER:
+                const newUSer = { ...state,user:action.newUser }
+                window.sessionStorage.setItem("user",JSON.stringify(newUSer))
+                return { ...state, user: newUSer }
+            default: return state;
     }
 }
 export default reducer

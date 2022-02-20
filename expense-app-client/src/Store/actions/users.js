@@ -26,19 +26,19 @@ const getUser = () => {
 export const updateUser = (newData) => {
     return async (dispatch, getState) => {
         let user = getState().users.user;
-        console.log('in update user', user);
         if (!user) {
             user = JSON.parse(window.sessionStorage.getItem("user"));
-            console.log('in update user', user);
+            console.log(user);
             if (!user) {
-                await dispatch(fetchUser());
-                user = getState().users.user;
-                console.log('in update user', user);
+                console.log('aborting');
+                dispatch({ type: 'x' });
+                return;
             }
+        } if (user) {
+            const response = (await axios.put('http://localhost:8080/defaultUser', { id: user._id, ...newData }));
+            console.log("update response", await response.data);
+            window.sessionStorage.setItem("user",JSON.stringify({ ...user, ...newData }))
+            dispatch({ type: UPDATEUSER, newUser: { ...user, ...newData } })
         }
-        const newUser = { ...user, ...newData };
-        const response = (await axios.put('http://localhost:8080/defaultUser', { id: user._id, newUser }));
-        console.log("update response", response.status,newUser);
-        dispatch({ type: UPDATEUSER, newUser })
     }
 }
