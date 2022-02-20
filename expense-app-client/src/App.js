@@ -3,7 +3,7 @@ import { Rows, Columns } from 'UIKit'
 import NavLinkItem from './components/navLinkItem';
 import { Outlet } from 'react-router-dom';
 import Header from 'components/header';
-import { fetchUser } from 'Store/actions/users';
+import { fetchUser } from './Store/actions/users';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchExpenses, fetchCurrentExpenses } from 'Store/actions/expenses'
