@@ -21,7 +21,7 @@ const ExpenseTable = (props) => {
             <Line ><h3>{minDate.toDateString()}</h3><h3> to: </h3><h3>  {maxDate.toDateString()} </h3> </Line>
         )
     }
-    return (
+    return ( expenses &&
         <div className="expense-table">
             <Rows>
                 <Toggler title={'Toggle expenses: '}>

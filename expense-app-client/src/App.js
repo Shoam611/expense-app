@@ -3,21 +3,53 @@ import { Rows, Columns } from 'UIKit'
 import NavLinkItem from './components/navLinkItem';
 import { Outlet } from 'react-router-dom';
 import Header from 'components/header';
-import { fetchUser } from './Store/actions/users';
+// import { fetchUser } from './Store/actions/users';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchExpenses, fetchCurrentExpenses } from 'Store/actions/expenses'
+import axios from 'axios';
+import { useCallback, useEffect, useState } from 'react';
+import useSessionStorage from 'hooks/useSessionStorage';
+import { fetchUser } from 'Store/actions/users';
+import { fetchCurrentExpenses, fetchExpenses } from 'Store/actions/expenses';
+// import { fetchExpenses, fetchCurrentExpenses } from 'Store/actions/expenses'
 function App() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
+  const [isLoading, setIsLoading] = useState();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState();
+  const [user, setUser] = useSessionStorage("user");
+  const [currentExpesnses, setCurrentExpesnses] = useSessionStorage("currentExpesnses");
+  const LoadUser = useCallback(async () => {
+    setError(null);
+    setIsRefreshing(true);
+    try{
       await dispatch(fetchUser());
-       await dispatch(fetchCurrentExpenses());
-       await dispatch(fetchExpenses(new Date()));
-    })()
-  }, [])
+    }
+    catch(err){setError(err.message)}
+  }, []);
+  const loadCurrentExpenses = useCallback(async () => {
+    setError(null);
+    setIsRefreshing(true);
+    try{
+      await dispatch(fetchExpenses(new Date()));
+      await dispatch(fetchCurrentExpenses());
+    }
+    catch(err){setError(err.message)}
+  }, []);
+  useEffect(() => {
+    setIsLoading(true);
+    LoadUser().then(()=>{
+      loadCurrentExpenses().then(()=>{
+        setIsLoading(false);
+      })
+
+    });
+  }, [useDispatch,setIsLoading,setError])
   return (
-    <div className="App">
+    isLoading ? (
+      <div>
+<h1>Loading data...</h1>
+      </div>
+    ) : <div className="App">
       <Rows>
         <Header>
         </Header>

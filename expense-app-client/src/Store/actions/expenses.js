@@ -2,7 +2,7 @@ import axios from "axios";
 export const ADDEXPENSE = "ADDEXPENSE";
 export const FETCHEXPENSES = "FETCHEXPENSES";
 export const FETCHCURRENTEXPENSES = "FETCHCURRENTEXPENSES";
-export const UPDATEDATE = "UPDATEDATE";
+
 export const addExpense = (newExpense) => {
     return async (dispatch, getState) => {
         try {
@@ -18,23 +18,26 @@ export const addExpense = (newExpense) => {
         } catch (err) { }
     }
 }
+
 export const fetchCurrentExpenses = () => {
     return async (dispatch, getState) => {
         const user = getState().users.user;
-        if (!user) { dispatch({ type: 'x' }); return; }
-        const expensesFromStorage = JSON.parse(window.sessionStorage.getItem("currentExpenses"));
-        if (expensesFromStorage) {
-            console.log("e", expensesFromStorage);
-            dispatch({ type: FETCHCURRENTEXPENSES, currentExpenses: expensesFromStorage });
-            return;
+        if (!user) {
+            let sessionuser = JSON.parse(window.sessionStorage.getItem("user"));
+            if (!sessionuser) {
+                dispatch({ type: 'x' });
+                console.log("aborted");
+                return;
+            }
+        } else {
+            const today=new Date()
+            const minDate = new Date(today.getFullYear(), today.getMonth(), user.dayOfTracking);
+            const maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 1, user.dayOfTracking - 1);
+            const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
+            const responseData = await response.data;
+            console.log('respons data for expenses', responseData);
+            dispatch({ type: FETCHCURRENTEXPENSES, currentExpenses: responseData, minDate, maxDate });
         }
-        const today = new Date();
-        const minDate = new Date(today.getFullYear(), user.dayOfTracking > today.getDay() ? today.getDay() : today.getMonth(), user.dayOfTracking);
-        console.log("date sent to server", minDate);
-        const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
-        const responseData = await response.data;
-        window.sessionStorage.setItem("currentExpenses", JSON.stringify(responseData))
-        dispatch({ type: FETCHCURRENTEXPENSES, currentExpenses: responseData });
     }
 }
 export const fetchExpenses = (date) => {
@@ -55,6 +58,5 @@ export const fetchExpenses = (date) => {
             console.log('respons data for expenses', responseData);
             dispatch({ type: FETCHEXPENSES, expenses: responseData, minDate, maxDate });
         }
-
     }
 }

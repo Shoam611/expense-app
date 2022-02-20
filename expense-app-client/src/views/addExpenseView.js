@@ -1,5 +1,5 @@
 import useInput from 'hooks/useInput';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { Btn, Input, Line } from 'UIKit';
 import { addExpense } from 'Store/actions/expenses';
 import { useEffect, useState } from 'react';
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import './addExpenseView.css'
 import './settingsView.css';
 const View = (props) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const storeName = useInput();
     const expenseValue = useInput();
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ const View = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
-            dispatch(addExpense({ storeName: storeName.value ? storeName.value : ' ', expenseValue: expenseValue.value }));
+            // dispatch(addExpense({ storeName: storeName.value ? storeName.value : ' ', expenseValue: expenseValue.value }));
             setCancelMessage('Expense Was Added!')
             clearInput();
         }

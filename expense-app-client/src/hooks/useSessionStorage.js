@@ -8,6 +8,6 @@ const useSessionStorage = (key, newValue = null) => {
     useEffect(() => {
         window.sessionStorage.setItem(key, JSON.stringify(value));
     }, [value]);
-    return {value, setValue};
+    return [value, setValue];
 };
 export default useSessionStorage;

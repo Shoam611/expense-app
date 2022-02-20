@@ -18,7 +18,7 @@ const View = () => {
             newName.value.length > 5 &&
             newName.value.length < 40;
     }
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const clearInput = () => {
         newName.onChange({ target: { value: '' } })
         newBalance.onChange({ target: { value: '' } })
@@ -27,7 +27,7 @@ const View = () => {
     }
     const handleSubmit = () => {
         if (validate()) {
-            dispatch(updateUser({ name: newName.value, currentBalance: newBalance.value, dayOfTracking: selectedDay.value }));
+            // dispatch(updateUser({ name: newName.value, currentBalance: newBalance.value, dayOfTracking: selectedDay.value }));
             alert('detailes saved')
             clearInput()
         }

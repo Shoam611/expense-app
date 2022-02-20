@@ -1,17 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { Provider } from 'react-redux';
-import { applyMiddleware, combineReducers } from 'redux';
-import './index.css';
+import { createStore ,applyMiddleware, combineReducers } from 'redux';
 import ReduxThunk from 'redux-thunk';
+
 import Navigator from './navigator'
 import expenses from './Store/reducers/expenses'
-import { createStore } from 'redux';
 import users from './Store/reducers/users';
+import './index.css';
 
 const rootReducer = combineReducers({
-  expenses: expenses,
-  users:users
+  users:users,
+  expenses: expenses
 });
 
 const Store = createStore(rootReducer,applyMiddleware(ReduxThunk))
