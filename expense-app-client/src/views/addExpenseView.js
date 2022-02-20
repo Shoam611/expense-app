@@ -1,5 +1,5 @@
 import useInput from 'hooks/useInput';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Btn, Input, Line } from 'UIKit';
 import { addExpense } from 'Store/actions/expenses';
 import { useEffect, useState } from 'react';
@@ -7,20 +7,11 @@ import { useNavigate } from "react-router-dom";
 import './addExpenseView.css'
 import './settingsView.css';
 const View = (props) => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const storeName = useInput();
     const expenseValue = useInput();
     const navigate = useNavigate();
-    // const preventNavigation = (e) => {
-    //     navigate('/addExpanse');
-    // }
-    // useEffect(() => {
-    //     window.onbeforeunload = function() {
-    //         return "Are you sure you wish to leave the page?";
-    //       }
-    //     window.addEventListener('popstate',preventNavigation);
-    //     return()=>{window.removeEventListener('popstate',preventNavigation)}
-    // }, []);
+ 
     const validate = () => {
         return isNaN(storeName.value) &&
             !isNaN(expenseValue.value) &&
@@ -31,8 +22,8 @@ const View = (props) => {
     const [cancelMessege, setCancelMessage] = useState("");
     const [didTryToCancel, setDidTryToCancel] = useState(false);
     const clearInput = () => {
-        storeName.onChange({ target: { value: '' } })
-        expenseValue.onChange({ target: { value: '' } })
+        storeName.setValue('')
+        expenseValue.setValue('')
         setDidTryToCancel(false);
         setCancelMessage("")
     }
@@ -48,7 +39,7 @@ const View = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
-            // dispatch(addExpense({ storeName: storeName.value ? storeName.value : ' ', expenseValue: expenseValue.value }));
+            dispatch(addExpense({ storeName: storeName.value ? storeName.value : ' ', expenseValue: expenseValue.value }));
             setCancelMessage('Expense Was Added!')
             clearInput();
         }

@@ -10,7 +10,7 @@ const reducer = (action, state = initialState) => {
             return { ...state, user:action.user ? action.user: state.user }
             case UPDATEUSER:
                 const newUSer = { ...state,user:action.newUser }
-                window.sessionStorage.setItem("user",JSON.stringify(newUSer))
+                // window.sessionStorage.setItem("user",JSON.stringify(newUSer))
                 return { ...state, user: newUSer }
             default: return state;
     }

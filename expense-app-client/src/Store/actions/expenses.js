@@ -6,15 +6,20 @@ export const FETCHCURRENTEXPENSES = "FETCHCURRENTEXPENSES";
 export const addExpense = (newExpense) => {
     return async (dispatch, getState) => {
         try {
-            const user = getState().users.user;
-            if (!user) { dispatch({ type: 'x' }); return; }
-            else {
-                const response = await axios.post(`http://localhost:8080/expenses`, { id: user._id, newExpense });
-                const responseData = await response.data
-                newExpense._id = responseData.data;
-                dispatch({ type: ADDEXPENSE, newExpense });
+            let user = getState().users.user;
+
+            if (!user) {
+                user = JSON.parse(window.sessionStorage.getItem("user")).user;
+                if (!user) {
+                    console.log("aborting add expense"); dispatch({ type: 'x' }); return;
+                }
             }
-        } catch (err) { }
+            console.log(user);
+            const response = await axios.post(`http://localhost:8080/expenses`, { id: user._id, newExpense });
+            const responseData = await response.data
+            newExpense._id = responseData.data;
+            dispatch({ type: ADDEXPENSE, newExpense:{...newExpense,addedAt : new Date()}});
+        } catch (err) { console.log(err); }
     }
 }
 
@@ -51,6 +56,7 @@ export const fetchExpenses = (date) => {
             }
         }
         const minDate = new Date(date.getFullYear(), date.getMonth(), user.dayOfTracking);
+        console.log("min date in fetch expenses", minDate);
         const maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 1, user.dayOfTracking - 1);
         const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
         const responseData = await response.data;

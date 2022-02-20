@@ -1,4 +1,4 @@
-import { FETCHEXPENSES, FETCHCURRENTEXPENSES } from "Store/actions/expenses";
+import { FETCHEXPENSES, FETCHCURRENTEXPENSES, ADDEXPENSE } from "Store/actions/expenses";
 const today = new Date();
 
 const initialState = {
@@ -18,7 +18,9 @@ const reducer = (state = initialState, action) => {
         case FETCHCURRENTEXPENSES:
             console.log("seting current expenses to", action.currentExpenses);
             return { ...state, currentExpenses: action.currentExpenses };
+            case ADDEXPENSE : return {...state,expenses:[...state.expenses,action.newExpense]}
         default: return state;
     }
 }
+
 export default reducer
