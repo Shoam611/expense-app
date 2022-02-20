@@ -7,9 +7,8 @@ export const addExpense = (newExpense) => {
     return async (dispatch, getState) => {
         try {
             let user = getState().users.user;
-
             if (!user) {
-                user = JSON.parse(window.sessionStorage.getItem("user")).user;
+                user = JSON.parse(window.sessionStorage.getItem("user"));
                 if (!user) {
                     console.log("aborting add expense"); dispatch({ type: 'x' }); return;
                 }
