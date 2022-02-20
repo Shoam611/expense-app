@@ -21,7 +21,7 @@ class ExpensesRepository {
     }
     //Read
     async getManyAsync(date, userId) {
-        const dMin = date
+        const dMin = date ? date : new Date();
         const dMax = new Date(dMin.getFullYear(), dMin.getMonth() + 1, dMin.getDate() - 1);
         const query = await ExpenseModel.find({ ownerId: userId })
                                         .where({ createdAt: { $gte: dMin.toDateString(), $lte: dMax.toDateString() } })

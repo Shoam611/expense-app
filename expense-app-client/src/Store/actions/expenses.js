@@ -25,7 +25,8 @@ export const fetchCurrentExpenses = ()=>{
         const user = getState().users.user;
         if (!user) { return; }
         const today = new Date();
-        const minDate = new Date(today.getFullYear(), today.getMonth(), getState().users.user.dayOfTracking);
+        const minDate = new Date(today.getFullYear(), today.getMonth(),user.dayOfTracking ?user.dayOfTracking:1);
+        console.log("date sent to server",minDate);
         const response = await axios.get(`http://localhost:8080/expenses?userId=${user._id}&date=${minDate}`);
         const responseData = await response.data;
         dispatch({ type: FETCHCURRENTEXPENSES, currentExpenses: responseData });

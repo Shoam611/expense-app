@@ -7,7 +7,7 @@ const UserDataPresenter = () => {
     const clacPrediction = () => user.currentBalance - calcExpensesSoFar();
     const calcExpensesSoFar = () => {
         let sum = 0;
-        console.log(currentExpenses);
+        console.log("currentExpenses",currentExpenses);
         if (currentExpenses) currentExpenses.forEach(element => {sum += element.expenseValue });
         return sum;
     }
