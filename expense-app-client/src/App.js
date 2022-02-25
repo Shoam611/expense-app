@@ -18,6 +18,7 @@ function App() {
     }
     catch(err){setError(err.message)}
   }, []);
+  
   const loadCurrentExpenses = useCallback(async () => {
     setError(null);
     try{
